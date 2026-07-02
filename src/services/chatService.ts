@@ -53,6 +53,12 @@ export function streamMessage(
               return
             }
 
+            // Empty data field represents a newline in the streamed content
+            if (data === '') {
+              callbacks.onToken('\n')
+              continue
+            }
+
             try {
               const parsed = JSON.parse(data)
               if (parsed !== null && typeof parsed === 'object') {
@@ -64,7 +70,7 @@ export function streamMessage(
                   callbacks.onToken(token)
                 }
               } else {
-                callbacks.onToken(data === '' ? '\n' : data)
+                callbacks.onToken(data)
               }
             } catch {
               callbacks.onToken(data)
