@@ -25,7 +25,7 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
 
   return (
     <aside className="w-60 shrink-0 flex flex-col bg-gray-50 border-r border-gray-200 h-screen overflow-hidden">
-      <div className="p-3 border-b border-gray-200">
+      <div className="p-3 flex flex-col gap-3 border-b border-gray-200">
         <button
           type="button"
           onClick={onNew}
@@ -35,6 +35,14 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
             <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
           </svg>
           Nova conversa
+        </button>
+        
+        <button
+          type="button"
+          onClick={() => navigate('/rag')}
+          className="text-center bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white hover:cursor-pointer transition-colors rounded-xl py-2.5 px-4 text-sm font-medium truncate"
+        >
+          Retrieval-Augmented Generation
         </button>
       </div>
 

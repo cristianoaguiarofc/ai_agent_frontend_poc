@@ -38,13 +38,13 @@ export function ChatPage() {
     })
   }, [messages.length, streamStatus])
 
-  function handleNew() {
+  const handleNew = () => {
     const id = newConversation()
     navigate(`/?session=${id}`)
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-white">
+    <div className="flex overflow-hidden bg-white">
       <Sidebar
         conversations={conversations}
         activeId={sessionId || undefined}
@@ -86,38 +86,27 @@ export function ChatPage() {
           </button>
         </main>
       ) : (
-        <main className="relative flex-1 min-w-0 overflow-y-auto bg-white">
-          {messages.length === 0 && !isStreaming ? (
-            <div className="flex min-h-full items-center justify-center">
-              <p className="text-sm text-gray-400">
-                Sem mensagens ainda. Diga olá!
-              </p>
-            </div>
-          ) : (
-            <div className="mx-auto max-w-200 py-2">
-              {messages.map((message) => (
-                <ChatMessage
-                  key={message.id}
-                  message={message}
-                />
-              ))}
+        <main className="flex w-full flex-col h-screen border-gray-200">
+          <div className="flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-200 min-h-full flex flex-col">
+              {messages.length === 0 && !isStreaming ? (
+                <div className="flex flex-1 items-center justify-center">
+                  <p className="text-sm text-gray-400">
+                    Sem mensagens ainda. Diga olá!
+                  </p>
+                </div>
+              ) : (
+                <div className="py-2">
+                  {messages.map((message) => (
+                    <ChatMessage key={message.id} message={message} />
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+              )}
 
-              <div ref={messagesEndRef} />
-            </div>
-          )}
-
-          {/* Área fixa inferior */}
-          <div className="sticky bottom-0 z-10">
-            {/* Gradiente igual ChatGPT */}
-            <div className="pointer-events-none" />
-
-            {/* Input */}
-            <div className="px-4">
-              <div className="mx-auto max-w-200">
-                <ChatInput
-                  onSend={sendMessage}
-                  disabled={isStreaming}
-                />
+              {/* input sticky com margin negativo pra sobrepor sem reservar espaço */}
+              <div className="sticky bottom-0 z-20 mt-auto">
+                <ChatInput onSend={sendMessage} disabled={isStreaming} />
               </div>
             </div>
           </div>
