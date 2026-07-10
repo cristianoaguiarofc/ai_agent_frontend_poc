@@ -1,36 +1,50 @@
 import { useEffect, useRef } from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
-import { Sidebar } from '../components/Sidebar'
-import { ChatMessage } from '../components/ChatMessage'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+
 import { ChatInput } from '../components/ChatInput'
-import { LoadingIndicator } from '../components/LoadingIndicator'
-import { useConversations } from '../hooks/useConversations'
+import { ChatMessage } from '../components/ChatMessage'
+import { Sidebar } from '../components/Sidebar'
 import { useChat } from '../hooks/useChat'
+import { useConversations } from '../hooks/useConversations'
 
 export function ChatPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
   const sessionId = searchParams.get('session') ?? ''
 
-  const { conversations, refresh, newConversation, removeConversation } = useConversations()
-  const { conversation, streamStatus, sendMessage } = useChat(sessionId, refresh)
+  const {
+    conversations,
+    refresh,
+    newConversation,
+    removeConversation,
+  } = useConversations()
+
+  const {
+    conversation,
+    streamStatus,
+    sendMessage,
+  } = useChat(sessionId, refresh)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
+  const isStreaming = streamStatus !== 'idle'
+  const messages = conversation?.messages ?? []
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [conversation?.messages.length, streamStatus])
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    })
+  }, [messages.length, streamStatus])
 
   function handleNew() {
     const id = newConversation()
     navigate(`/?session=${id}`)
   }
 
-  const isStreaming = streamStatus !== 'idle'
-  const messages = conversation?.messages ?? []
-
   return (
-    <div className="flex h-screen bg-white overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-white">
       <Sidebar
         conversations={conversations}
         activeId={sessionId || undefined}
@@ -38,63 +52,77 @@ export function ChatPage() {
         onDelete={removeConversation}
       />
 
-      <main className="flex-1 flex flex-col min-w-0">
-        {!sessionId ? (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-8">
-            <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white">
-                <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-2">
-                IA Agent Chat
-              </h1>
-              <p className="text-gray-400 text-sm">
-                Selecione uma conversa ou inicie uma nova.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleNew}
-              className="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-2.5 px-6 text-sm font-medium transition-colors"
+      {!sessionId ? (
+        <main className="flex flex-1 flex-col items-center justify-center text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-8 w-8 text-white"
             >
-              Iniciar conversa
-            </button>
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
+              />
+            </svg>
           </div>
-        ) : (
-          <>
-            <header className="border-b border-gray-200 px-6 py-3 bg-white">
-              <h2 className="text-sm font-medium text-gray-900 truncate">
-                {conversation?.title ?? 'Nova conversa'}
-              </h2>
-              <p className="text-xs text-gray-400 font-mono truncate mt-0.5">
-                {sessionId}
+
+          <h1 className="mt-6 text-2xl font-semibold text-gray-900">
+            IA Agent Chat
+          </h1>
+
+          <p className="mt-2 text-sm text-gray-400">
+            Selecione uma conversa ou inicie uma nova.
+          </p>
+
+          <button
+            type="button"
+            onClick={handleNew}
+            className="mt-6 rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+          >
+            Iniciar conversa
+          </button>
+        </main>
+      ) : (
+        <main className="relative flex-1 min-w-0 overflow-y-auto bg-white">
+          {messages.length === 0 && !isStreaming ? (
+            <div className="flex min-h-full items-center justify-center">
+              <p className="text-sm text-gray-400">
+                Sem mensagens ainda. Diga olá!
               </p>
-            </header>
-
-            <div className="flex-1 overflow-y-auto py-4 space-y-1 bg-white">
-              {messages.length === 0 && !isStreaming && (
-                <div className="flex flex-col items-center justify-center h-full gap-2 text-center px-8">
-                  <p className="text-gray-400 text-sm">
-                    Sem mensagens ainda. Diga olá!
-                  </p>
-                </div>
-              )}
-
-              {messages.map((msg) => (
-                <ChatMessage key={msg.id} message={msg} />
+            </div>
+          ) : (
+            <div className="mx-auto max-w-200 py-2">
+              {messages.map((message) => (
+                <ChatMessage
+                  key={message.id}
+                  message={message}
+                />
               ))}
-
-              {streamStatus === 'waiting' && <LoadingIndicator />}
 
               <div ref={messagesEndRef} />
             </div>
+          )}
 
-            <ChatInput onSend={sendMessage} disabled={isStreaming} />
-          </>
-        )}
-      </main>
+          {/* Área fixa inferior */}
+          <div className="sticky bottom-0 z-10">
+            {/* Gradiente igual ChatGPT */}
+            <div className="pointer-events-none" />
+
+            {/* Input */}
+            <div className="px-4">
+              <div className="mx-auto max-w-200">
+                <ChatInput
+                  onSend={sendMessage}
+                  disabled={isStreaming}
+                />
+              </div>
+            </div>
+          </div>
+        </main>
+      )}
     </div>
   )
 }

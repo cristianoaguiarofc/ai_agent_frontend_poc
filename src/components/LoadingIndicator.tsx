@@ -21,8 +21,8 @@ export function LoadingIndicator() {
   }, []);
 
   return (
-    <div className="flex items-start gap-3 px-4 py-3">
-        <span className="ml-12 shimmer-text text-gray-300 text-sm font-medium transition-all duration-500">
+    <div className="flex items-start gap-3">
+        <span className="shimmer-text text-gray-300 text-sm font-medium transition-all duration-500">
           {currentPhrase}
         </span>
     </div>

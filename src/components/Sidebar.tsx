@@ -29,7 +29,7 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
         <button
           type="button"
           onClick={onNew}
-          className="w-full flex items-center gap-2 justify-center bg-indigo-600 hover:bg-indigo-700 transition-colors text-white rounded-xl py-2.5 px-4 text-sm font-medium"
+          className="w-full flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 hover:cursor-pointer transition-colors text-white rounded-xl py-2.5 px-4 text-sm font-medium"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
             <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
@@ -53,7 +53,7 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
               onClick={() => handleSelect(conv.id)}
               className={`w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 ${
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700'
+                  ? 'bg-gray-50 text-gray-700'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
@@ -64,7 +64,7 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
               <button
                 type="button"
                 onClick={(e) => handleDelete(e, conv.id)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded hover:text-red-500 shrink-0"
+                className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded hover:text-red-500 hover:cursor-pointer shrink-0"
                 aria-label="Deletar conversa"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3.5 h-3.5">

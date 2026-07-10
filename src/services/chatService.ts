@@ -1,4 +1,4 @@
-const AI_BASE_URL = 'http://localhost:8080/chat'
+const AI_BASE_URL = 'http://localhost:8080/api/chat'
 
 export interface StreamCallbacks {
   onToken: (token: string) => void
