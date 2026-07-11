@@ -59,7 +59,7 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
               key={conv.id}
               type="button"
               onClick={() => handleSelect(conv.id)}
-              className={`w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 ${
+              className={`w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 hover:cursor-pointer ${
                 isActive
                   ? 'bg-gray-50 text-gray-700'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'

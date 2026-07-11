@@ -52,32 +52,18 @@ export function RAGPage() {
         onDelete={removeConversation}
       />
 
-        <main className="flex-1 min-w-0 bg-white">
-          {messages.length === 0 && !isStreaming ? (
-            <div className="flex min-h-full items-center justify-center">
-              <p className="text-sm text-gray-400">
-                Sem mensagens ainda. Diga olá!
-              </p>
-            </div>
-          ) : (
-            <div className="mx-auto max-w-200 py-2">
+        <main className="flex w-full flex-col h-dvh overflow-auto">
+          <div className='max-w-200 mx-auto w-full h-full flex flex-col'>
 
-            </div>
-          )}
-
-          {/* Área fixa inferior */}
-          <div className="sticky bottom-0 z-10">
-            {/* Gradiente igual ChatGPT */}
-            <div className="pointer-events-none" />
-
-            {/* Input */}
-            <div className="px-4">
-              <div className="mx-auto max-w-200">
-                <ChatInput
-                  onSend={sendMessage}
-                  disabled={isStreaming}
-                />
+              <div className="flex flex-1 items-center justify-center">
+                <p className="text-sm text-gray-400">
+                  Sem mensagens ainda. Diga olá!
+                </p>
               </div>
+
+            {/* input sticky com margin negativo pra sobrepor sem reservar espaço */}
+            <div className="sticky bottom-0 z-20 mt-auto">
+              <ChatInput onSend={sendMessage} disabled={isStreaming} />
             </div>
           </div>
         </main>

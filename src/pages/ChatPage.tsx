@@ -54,7 +54,7 @@ export function ChatPage() {
 
       {!sessionId ? (
         <main className="flex flex-1 flex-col items-center justify-center text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-600">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gray-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -80,34 +80,33 @@ export function ChatPage() {
           <button
             type="button"
             onClick={handleNew}
-            className="mt-6 rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+            className="mt-6 rounded-xl bg-gray-700 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 hover:cursor-pointer"
           >
             Iniciar conversa
           </button>
         </main>
       ) : (
-        <main className="flex w-full flex-col h-screen border-gray-200">
-          <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-200 min-h-full flex flex-col">
-              {messages.length === 0 && !isStreaming ? (
-                <div className="flex flex-1 items-center justify-center">
-                  <p className="text-sm text-gray-400">
-                    Sem mensagens ainda. Diga olá!
-                  </p>
-                </div>
-              ) : (
-                <div className="py-2">
-                  {messages.map((message) => (
-                    <ChatMessage key={message.id} message={message} />
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
-              )}
+        <main className="flex w-full flex-col h-dvh overflow-auto">
+          <div className='max-w-200 mx-auto w-full h-full flex flex-col'>
 
-              {/* input sticky com margin negativo pra sobrepor sem reservar espaço */}
-              <div className="sticky bottom-0 z-20 mt-auto">
-                <ChatInput onSend={sendMessage} disabled={isStreaming} />
+            {messages.length === 0 && !isStreaming ? (
+              <div className="flex flex-1 items-center justify-center">
+                <p className="text-sm text-gray-400">
+                  Sem mensagens ainda. Diga olá!
+                </p>
               </div>
+            ) : (
+
+              <div className="py-2">
+                {messages.map((message) => (
+                  <ChatMessage key={message.id} message={message} />
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+
+            <div className="sticky bottom-0 z-20 mt-auto">
+              <ChatInput onSend={sendMessage} disabled={isStreaming} />
             </div>
           </div>
         </main>
