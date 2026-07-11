@@ -25,24 +25,29 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
 
   return (
     <aside className="w-60 shrink-0 flex flex-col bg-gray-50 border-r border-gray-200 h-screen overflow-hidden">
-      <div className="p-3 flex flex-col gap-3 border-b border-gray-200">
+      <div className="py-2 px-2 border-b border-gray-200">
         <button
           type="button"
           onClick={onNew}
-          className="w-full flex items-center gap-2 justify-center bg-gray-700 hover:bg-gray-800 hover:cursor-pointer transition-colors text-white rounded-xl py-2.5 px-4 text-sm font-medium"
+          className="w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 hover:cursor-pointer text-gray-600 hover:bg-gray-100 hover:text-gray-900"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
             <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
           </svg>
-          Nova conversa
+          <span className='truncate'>Nova conversa</span>
         </button>
-        
+
         <button
           type="button"
           onClick={() => navigate('/rag')}
-          className="text-center bg-gray-200 text-gray-700 hover:bg-gray-800 hover:text-white hover:cursor-pointer transition-colors rounded-xl py-2.5 px-4 text-sm font-medium truncate"
+          className="w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 hover:cursor-pointer text-gray-600 hover:bg-gray-100 hover:text-gray-900"
         >
-          Retrieval-Augmented Generation
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 shrink-0">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+          </svg>
+
+
+          <span className='truncate'>Retrieval-Augmented Generation</span>
         </button>
       </div>
 
@@ -59,11 +64,10 @@ export function Sidebar({ conversations, activeId, onNew, onDelete }: Props) {
               key={conv.id}
               type="button"
               onClick={() => handleSelect(conv.id)}
-              className={`w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 hover:cursor-pointer ${
-                isActive
-                  ? 'bg-gray-50 text-gray-700'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
+              className={`w-full text-left group flex items-center gap-2 px-2 py-2 rounded-lg transition-colors text-sm mb-0.5 hover:cursor-pointer ${isActive
+                ? 'bg-gray-50 text-gray-700'
+                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                }`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0 opacity-50">
                 <path fillRule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z" clipRule="evenodd" />
